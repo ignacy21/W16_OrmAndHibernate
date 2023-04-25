@@ -32,7 +32,8 @@ public class HibernateUtil {
                     .build();
 
             Metadata metadata = new MetadataSources(serviceRegistry)
-                    .addAnnotatedClass(Employee.class)
+                    .addAnnotatedClass(Customer.class)
+                    .addAnnotatedClass(Address.class)
                     .getMetadataBuilder()
                     .build();
 

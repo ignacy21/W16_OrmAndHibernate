@@ -6,21 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "employee")
-public class Employee {
+@Table(name = "customer")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
-    private Integer employeeId;
+    @Column(name = "customer_id", unique = true, nullable = false)
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -28,9 +25,13 @@ public class Employee {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "salary")
-    private BigDecimal salary;
+    @Column(name = "phone")
+    private String phone;
 
-    @Column(name = "since")
-    private OffsetDateTime since;
+    @Column(name = "email")
+    private String email;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", unique = true)
+    private Address address;
 }
