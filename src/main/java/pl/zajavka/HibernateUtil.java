@@ -7,6 +7,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import pl.zajavka.many_to_many.Employee;
+import pl.zajavka.many_to_many.Project;
 import pl.zajavka.one_to_many.Owner;
 import pl.zajavka.one_to_many.Pet;
 import pl.zajavka.one_to_one.Address;
@@ -40,6 +42,8 @@ public class HibernateUtil {
                     .addAnnotatedClass(Address.class)
                     .addAnnotatedClass(Pet.class)
                     .addAnnotatedClass(Owner.class)
+                    .addAnnotatedClass(Employee.class)
+                    .addAnnotatedClass(Project.class)
                     .getMetadataBuilder()
                     .build();
 
