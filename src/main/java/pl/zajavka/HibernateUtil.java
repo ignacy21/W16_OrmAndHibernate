@@ -7,6 +7,10 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import pl.zajavka.one_to_many.Owner;
+import pl.zajavka.one_to_many.Pet;
+import pl.zajavka.one_to_one.Address;
+import pl.zajavka.one_to_one.Customer;
 
 import java.util.Map;
 
@@ -20,7 +24,7 @@ public class HibernateUtil {
         Map.entry(Environment.DIALECT,"org.hibernate.dialect.PostgreSQLDialect"),
         Map.entry(Environment.HBM2DDL_AUTO,"none"),
         Map.entry(Environment.SHOW_SQL,true),
-        Map.entry(Environment.FORMAT_SQL,true)
+        Map.entry(Environment.FORMAT_SQL,false)
     );
 
     private static SessionFactory sessionFactory = loadSessionFactory();
@@ -34,6 +38,8 @@ public class HibernateUtil {
             Metadata metadata = new MetadataSources(serviceRegistry)
                     .addAnnotatedClass(Customer.class)
                     .addAnnotatedClass(Address.class)
+                    .addAnnotatedClass(Pet.class)
+                    .addAnnotatedClass(Owner.class)
                     .getMetadataBuilder()
                     .build();
 
@@ -43,7 +49,7 @@ public class HibernateUtil {
         }
     }
 
-    static void closeSessionFactory() {
+    public static void closeSessionFactory() {
         try {
             sessionFactory.close();
         } catch (Exception e) {
@@ -51,7 +57,7 @@ public class HibernateUtil {
         }
     }
 
-    static Session getSession() {
+    public static Session getSession() {
         try {
             return sessionFactory.openSession();
         } catch (Exception e) {

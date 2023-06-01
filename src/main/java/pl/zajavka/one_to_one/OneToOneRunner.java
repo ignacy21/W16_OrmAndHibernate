@@ -1,6 +1,8 @@
-package pl.zajavka;
+package pl.zajavka.one_to_one;
 
-public class ExampleRunner {
+import pl.zajavka.HibernateUtil;
+
+public class OneToOneRunner {
 
     public static void main(String[] args) {
         CustomerRepository customerRepository = new CustomerRepository();

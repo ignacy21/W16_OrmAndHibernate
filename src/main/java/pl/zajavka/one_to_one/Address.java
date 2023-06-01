@@ -1,4 +1,4 @@
-package pl.zajavka;
+package pl.zajavka.one_to_one;
 
 import jakarta.persistence.*;
 import lombok.*;
