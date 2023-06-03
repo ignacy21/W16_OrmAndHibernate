@@ -5,10 +5,12 @@ import pl.zajavka.HibernateUtil;
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 public class EmployeeRepository {
     List<Employee> insertData(final List<Employee> employees) {
         try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
+            if (isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
             session.beginTransaction();
@@ -28,7 +30,7 @@ public class EmployeeRepository {
 
     List<Employee> listEmployees() {
         try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
+            if (isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
             session.beginTransaction();
@@ -43,7 +45,7 @@ public class EmployeeRepository {
 
     Optional<Employee> getEmployee(Integer employeeId) {
         try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
+            if (isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
             return Optional.ofNullable(session.find(Employee.class, employeeId));
@@ -52,7 +54,7 @@ public class EmployeeRepository {
 
     void updateEmployee(Integer employeeId, Project newProject) {
         try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
+            if (isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
             session.beginTransaction();
@@ -66,7 +68,7 @@ public class EmployeeRepository {
 
     void deleteEmployee(Integer employeeId) {
         try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
+            if (isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
             session.beginTransaction();
@@ -95,7 +97,7 @@ public class EmployeeRepository {
 
     void deleteAll() {
         try (Session session = HibernateUtil.getSession()) {
-            if (Objects.isNull(session)) {
+            if (isNull(session)) {
                 throw new RuntimeException("Session is null");
             }
             session.beginTransaction();
