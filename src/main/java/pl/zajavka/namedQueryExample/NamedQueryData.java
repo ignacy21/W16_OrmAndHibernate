@@ -2,11 +2,8 @@ package pl.zajavka.namedQueryExample;
 
 import org.hibernate.Session;
 import pl.zajavka.HibernateUtil;
-import pl.zajavka.one_to_many.Owner;
-import pl.zajavka.one_to_many.Pet;
 
 import java.util.Objects;
-import java.util.Set;
 
 public class NamedQueryData {
 

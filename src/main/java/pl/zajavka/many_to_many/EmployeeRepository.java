@@ -8,7 +8,7 @@ import java.util.*;
 import static java.util.Objects.isNull;
 
 public class EmployeeRepository {
-    List<Employee> insertData(final List<Employee> employees) {
+    public List<Employee> insertData(final List<Employee> employees) {
         try (Session session = HibernateUtil.getSession()) {
             if (isNull(session)) {
                 throw new RuntimeException("Session is null");
