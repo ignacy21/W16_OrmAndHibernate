@@ -1,6 +1,7 @@
 package pl.zajavka.many_to_many;
 
 import pl.zajavka.HibernateUtil;
+import pl.zajavka.many_to_many.hibernateAdvanced.hikariCP.HikariCPExamples;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -11,29 +12,33 @@ public class ManyToManyRunner {
     public static void main(String[] args) {
 
         EmployeeRepository employeeRepository = new EmployeeRepository();
-
-
         employeeRepository.deleteAll();
 
         List<Employee> employeesCreated = createEmployees(employeeRepository);
 
+        System.out.println("### LISTING ###");
         employeeRepository.listEmployees()
                 .forEach(employee ->
                         System.out.println("###Employee listing: " + employee));
 
-        System.out.println("###Employee 1: " + employeeRepository.getEmployee(employeesCreated.get(employeesCreated.size() - 1).getEmployeeId()));
-        System.out.println("###Employee 2: " + employeeRepository.getEmployee(employeesCreated.get(employeesCreated.size() - 2).getEmployeeId()));
+        HikariCPExamples.example1(employeesCreated.get(employeesCreated.size() - 1).getEmployeeId());
+        HikariCPExamples.example2(employeesCreated.get(employeesCreated.size() - 1).getEmployeeId());
+        HikariCPExamples.example3(employeesCreated.get(employeesCreated.size() - 1).getEmployeeId());
 
-        updateEmployees(employeeRepository, employeesCreated);
 
-        employeeRepository.listEmployees()
-                .forEach(employee -> System.out.println("###Employee listing: " + employee));
-
-        employeeRepository.deleteEmployee(employeesCreated
-                .get(employeesCreated.size() - 2).getEmployeeId());
-
-        employeeRepository.listEmployees()
-                .forEach(employee -> System.out.println("###Employee listing: " + employee));
+//        System.out.println("###Employee 1: " + employeeRepository.getEmployee(employeesCreated.get(employeesCreated.size() - 1).getEmployeeId()));
+//        System.out.println("###Employee 2: " + employeeRepository.getEmployee(employeesCreated.get(employeesCreated.size() - 2).getEmployeeId()));
+//
+//        updateEmployees(employeeRepository, employeesCreated);
+//
+//        employeeRepository.listEmployees()
+//                .forEach(employee -> System.out.println("###Employee listing: " + employee));
+//
+//        employeeRepository.deleteEmployee(employeesCreated
+//                .get(employeesCreated.size() - 2).getEmployeeId());
+//
+//        employeeRepository.listEmployees()
+//                .forEach(employee -> System.out.println("###Employee listing: " + employee));
 
         HibernateUtil.closeSessionFactory();
     }
@@ -67,5 +72,7 @@ public class ManyToManyRunner {
         System.out.println("###Employee update: " + employeeRepository
                 .getEmployee(employeesCreated.get(employeesCreated.size() - 1).getEmployeeId()));
     }
+
+
 }
 

@@ -1,7 +1,10 @@
-package pl.zajavka.many_to_many;
+package pl.zajavka.many_to_many.hibernateAdvanced.secondLevelCache;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import pl.zajavka.many_to_many.Project;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -14,8 +17,10 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "employee")
-public class Employee {
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+@Table(name = "cache_employee")
+public class CashedEmployee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

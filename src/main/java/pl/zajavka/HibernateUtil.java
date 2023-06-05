@@ -7,8 +7,10 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.stat.Statistics;
 import pl.zajavka.many_to_many.Employee;
 import pl.zajavka.many_to_many.Project;
+import pl.zajavka.many_to_many.hibernateAdvanced.secondLevelCache.CashedEmployee;
 import pl.zajavka.namedQueryExample.Person;
 import pl.zajavka.one_to_many.HQL.Toy;
 import pl.zajavka.one_to_many.Owner;
@@ -31,8 +33,17 @@ public class HibernateUtil {
                     "org.hibernate.hikaricp.internal.HikariCPConnectionProvider"
             ),
             Map.entry(Environment.HBM2DDL_AUTO, "none"),
+            Map.entry(Environment.GENERATE_STATISTICS, true),
             Map.entry(Environment.SHOW_SQL, true),
-            Map.entry(Environment.FORMAT_SQL, false)
+            Map.entry(Environment.FORMAT_SQL, false),
+            Map.entry(Environment.USE_SQL_COMMENTS, false)
+    );
+
+    private static final Map<String, Object> CACHE_SETTINGS = Map.ofEntries(
+            Map.entry(Environment.CACHE_REGION_FACTORY, "jcache"),
+            Map.entry("hibernate.javax.cache.provider", "org.ehcache.jsr107.EhcacheCachingProvider"),
+            Map.entry("hibernate.javax.cache.uri", "/META-INF/ehcache.xml"),
+            Map.entry(Environment.USE_SECOND_LEVEL_CACHE, true)
     );
 
     private static final Map<String, Object> HIKARI_CP_SETTINGS = Map.ofEntries(
@@ -48,6 +59,8 @@ public class HibernateUtil {
         try {
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(SETTINGS)
+                    .applySettings(HIKARI_CP_SETTINGS)
+                    .applySettings(CACHE_SETTINGS)
                     .build();
 
             Metadata metadata = new MetadataSources(serviceRegistry)
@@ -59,6 +72,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(Project.class)
                     .addAnnotatedClass(Toy.class)
                     .addAnnotatedClass(Person.class)
+                    .addAnnotatedClass(CashedEmployee.class)
                     .getMetadataBuilder()
                     .build();
 
@@ -83,6 +97,10 @@ public class HibernateUtil {
             System.err.println("Exception while opening session: " + e);
         }
         return null;
+    }
+
+    public static Statistics getStatistics() {
+        return sessionFactory.getStatistics();
     }
 }
 
